@@ -3,8 +3,11 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/AppDemo.iml" filepath="$PROJECT_DIR$/AppDemo.iml" />
+      <module fileurl="file://D:\androidapp\AppDemo\AppDemo.iml" filepath="D:\androidapp\AppDemo\AppDemo.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
+      <module fileurl="file://D:\androidapp\AppDemo\app\app.iml" filepath="D:\androidapp\AppDemo\app\app.iml" />
       <module fileurl="file://$PROJECT_DIR$/viewbinding/viewbinding.iml" filepath="$PROJECT_DIR$/viewbinding/viewbinding.iml" />
+      <module fileurl="file://D:\androidapp\AppDemo\viewbinding\viewbinding.iml" filepath="D:\androidapp\AppDemo\viewbinding\viewbinding.iml" />
     </modules>
   </component>
 </project>
