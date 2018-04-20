@@ -1,6 +1,5 @@
 package enjoy.appdemo;
 
-import android.database.DatabaseUtils;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -13,15 +12,17 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
+
 import Class.*;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import ViewModel.MainActivity_ViewModel;
+import ViewModel.TcpClient_ViewModel;
 import ViewModel.Tcp_ViewModel;
 import enjoy.appdemo.databinding.ActivityMainBinding;
+import enjoy.appdemo.databinding.TcpclientViewBinding;
 import enjoy.appdemo.databinding.TcpserverViewBinding;
 
 
@@ -29,6 +30,7 @@ public class MainActivity extends AppCompatActivity implements ViewPager.OnPageC
 
     private MainActivity_ViewModel viewModel=new MainActivity_ViewModel();
     private Tcp_ViewModel tcpViewModel=new Tcp_ViewModel();
+    private TcpClient_ViewModel tcpClient_viewModel=new TcpClient_ViewModel();
 
     ViewPager viewPager;
     FrameLayout layout_frame;
@@ -114,9 +116,11 @@ public class MainActivity extends AppCompatActivity implements ViewPager.OnPageC
         TcpserverViewBinding tcpViewBinding=TcpserverViewBinding.inflate(inflater);
         tcpViewBinding.setViewModel(tcpViewModel);
 
+        TcpclientViewBinding tcpclientViewBinding=TcpclientViewBinding.inflate(inflater);
+        tcpclientViewBinding.setViewModel(tcpClient_viewModel);
 
         list_view.add(tcpViewBinding.getRoot());
-        list_view.add(inflater.inflate(R.layout.udp_view, null));
+        list_view.add(tcpclientViewBinding.getRoot());
         list_view.add(inflater.inflate(R.layout.bluetooth_view, null));
         adapter = new ViewPagerAdapter(list_view);
         viewPager.setAdapter(adapter);

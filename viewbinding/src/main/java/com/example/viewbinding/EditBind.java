@@ -10,6 +10,10 @@ import android.databinding.ObservableInt;
  */
 
 public class EditBind {
+    public EditBind(String value)
+    {
+        TextValue.set(value);
+    }
     /**
      * 是否启用
      */
