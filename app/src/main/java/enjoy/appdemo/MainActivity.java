@@ -20,11 +20,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 import ViewModel.MainActivity_ViewModel;
+import ViewModel.Tcp_ViewModel;
 import enjoy.appdemo.databinding.ActivityMainBinding;
+import enjoy.appdemo.databinding.TcpViewBinding;
 
 public class MainActivity extends AppCompatActivity implements ViewPager.OnPageChangeListener {
 
     private MainActivity_ViewModel viewModel=new MainActivity_ViewModel();
+    private Tcp_ViewModel tcpViewModel=new Tcp_ViewModel();
 
     ViewPager viewPager;
     FrameLayout layout_frame;
@@ -107,9 +110,11 @@ public class MainActivity extends AppCompatActivity implements ViewPager.OnPageC
     private void initGuideView() {
         //添加展示的View
         LayoutInflater inflater = LayoutInflater.from(this);
-        //TcpViewBinding tcpViewBinding=DataBindingUtil.setContentView(this,R.layout.tcp_view);
-        //tcpViewBinding.setViewModel(viewModel);
-        list_view.add(inflater.inflate(R.layout.tcp_view,null));
+        TcpViewBinding tcpViewBinding=TcpViewBinding.inflate(inflater);
+        tcpViewBinding.setViewModel(tcpViewModel);
+
+
+        list_view.add(tcpViewBinding.getRoot());
         list_view.add(inflater.inflate(R.layout.udp_view, null));
         list_view.add(inflater.inflate(R.layout.bluetooth_view, null));
         adapter = new ViewPagerAdapter(list_view);
