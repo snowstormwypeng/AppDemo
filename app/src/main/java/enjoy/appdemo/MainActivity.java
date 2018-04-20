@@ -22,7 +22,8 @@ import java.util.List;
 import ViewModel.MainActivity_ViewModel;
 import ViewModel.Tcp_ViewModel;
 import enjoy.appdemo.databinding.ActivityMainBinding;
-import enjoy.appdemo.databinding.TcpViewBinding;
+import enjoy.appdemo.databinding.TcpserverViewBinding;
+
 
 public class MainActivity extends AppCompatActivity implements ViewPager.OnPageChangeListener {
 
@@ -110,7 +111,7 @@ public class MainActivity extends AppCompatActivity implements ViewPager.OnPageC
     private void initGuideView() {
         //添加展示的View
         LayoutInflater inflater = LayoutInflater.from(this);
-        TcpViewBinding tcpViewBinding=TcpViewBinding.inflate(inflater);
+        TcpserverViewBinding tcpViewBinding=TcpserverViewBinding.inflate(inflater);
         tcpViewBinding.setViewModel(tcpViewModel);
 
 
