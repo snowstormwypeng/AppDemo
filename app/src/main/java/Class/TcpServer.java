@@ -14,16 +14,12 @@ public class TcpServer {
     private ServerSocket serverSocket;
     private ExecutorService executorService;
     private IRecvEvent recvEvent;
+    private int port;
 
-    public TcpServer(int port)
-    {
-        try {
-            serverSocket=new ServerSocket(port);
-            executorService= Executors.newSingleThreadExecutor();
-            executorService.execute(runnable);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+    public TcpServer(int port) {
+        this.port=port;
+        executorService = Executors.newSingleThreadExecutor();
+        executorService.execute(runnable);
     }
     public void addListener(IRecvEvent listener)
     {
@@ -32,16 +28,15 @@ public class TcpServer {
     private Runnable runnable=new Runnable() {
         @Override
         public void run() {
-            while (!executorService.isShutdown())
-            {
-                try {
-                    Socket clientSocket=serverSocket.accept();
-                    TcpClient client=new TcpClient(clientSocket);
-
-
-                } catch (IOException e) {
-                    e.printStackTrace();
+            try {
+                serverSocket = new ServerSocket(port);
+                while (!executorService.isShutdown()) {
+                    Socket clientSocket = serverSocket.accept();
+                    TcpClient client = new TcpClient(clientSocket);
+                    client.addListener(recvEvent);
                 }
+            } catch (IOException e) {
+                e.printStackTrace();
             }
         }
     };

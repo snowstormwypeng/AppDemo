@@ -19,33 +19,19 @@ public class TcpClient {
     private InputStream inputStream;
     private OutputStream outputStream;
     private Object syncObject=new Object();
+    private String host;
+    private int port;
 
-    public TcpClient(Socket socket)
-    {
-        this.socket=socket;
-        if (socket!=null)
-        {
-            executorService= Executors.newSingleThreadExecutor();
-            try {
-                inputStream=socket.getInputStream();
-                outputStream=socket.getOutputStream();
-                executorService.execute(runnable);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
+    public TcpClient(Socket socket) {
+        this.socket = socket;
+        executorService = Executors.newSingleThreadExecutor();
+        executorService.execute(runnable);
     }
-    public TcpClient(String host,int port)
-    {
-        try {
-            this.socket=new Socket(host,port);
-            executorService= Executors.newSingleThreadExecutor();
-            inputStream=socket.getInputStream();
-            outputStream=socket.getOutputStream();
-            executorService.execute(runnable);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+    public TcpClient(String host,int port) {
+        this.port = port;
+        this.host = host;
+        executorService = Executors.newSingleThreadExecutor();
+        executorService.execute(runnable);
     }
 
     public void Close()
@@ -60,30 +46,33 @@ public class TcpClient {
     private Runnable runnable=new Runnable() {
         @Override
         public void run() {
-            while(!executorService.isShutdown())
-            {
-                synchronized (syncObject) {
-                    try {
-                        int len = inputStream.available();
-                        if (len > 0) {
-                            byte[] buf = new byte[len];
-                            len = inputStream.read(buf);
-                            if (recvEvent != null) {
-                                recvEvent.RecvEvent(TcpClient.this, buf);
-                            }
-                        }
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
+            try {
+                if (socket==null) {
+                    socket = new Socket(host, port);
                 }
-                try {
+                inputStream=socket.getInputStream();
+                outputStream=socket.getOutputStream();
+                while (!executorService.isShutdown()) {
+                    synchronized (syncObject) {
+                        try {
+                            int len = inputStream.available();
+                            if (len > 0) {
+                                byte[] buf = new byte[len];
+                                len = inputStream.read(buf);
+                                if (recvEvent != null) {
+                                    recvEvent.RecvEvent(TcpClient.this, buf);
+                                }
+                            }
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                    }
                     Thread.sleep(10);
                 }
-                catch (Exception e)
-                {
-                    e.printStackTrace();
-                }
+            } catch (Exception e) {
+                e.printStackTrace();
             }
+
         }
     };
     public void addListener(IRecvEvent listener)

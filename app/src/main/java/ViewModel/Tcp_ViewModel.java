@@ -2,7 +2,12 @@ package ViewModel;
 
 import android.util.Log;
 import android.view.View;
+import android.widget.EditText;
+
 import Class.*;
+
+import com.example.helper.Convert;
+import com.example.viewbinding.EditBind;
 import com.example.viewbinding.TextBind;
 
 /**
@@ -10,20 +15,22 @@ import com.example.viewbinding.TextBind;
  */
 
 public class Tcp_ViewModel extends Base_ViewModel implements IRecvEvent {
-    public final TextBind Port=new TextBind("0");
+    public final EditBind Port=new EditBind("1346");
+    public final TextBind recvData=new TextBind("");
     private String logTag=this.getClass().getSimpleName();
     private TcpServer server;
 
     public void StartTcpServer(View view)
     {
-        server=new TcpServer(Integer.valueOf(Port.Text.get()));
+        server=new TcpServer(Integer.valueOf(Port.TextValue.get()));
         server.addListener(this);
         Log.d(logTag,"Tcp服务已启动");
     }
 
     @Override
     public void RecvEvent(TcpClient client, byte[] data) {
-        Log.d(logTag,"收到数据："+data.toString());
+        recvData.Text.set(recvData.Text.get()+"\r\n"+ Convert.ByteArrayToHexString(data));
+        client.SendData(data);
 
     }
 }
